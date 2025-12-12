@@ -1,0 +1,10 @@
+.v2-wrapper {
+  width: 100%;
+  height: calc(100vh - 64px); // ヘッダー分引くなら調整
+}
+
+.v2-frame {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+}
