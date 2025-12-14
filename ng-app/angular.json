@@ -30,7 +30,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "scripts": [
               "node_modules/angular/angular.js",
-              "src/legacy/app.js"
+              "src/legacy/app.js",
+              "src/legacy/directives/legacy-root.js"
             ],
             "styles": [
               "src/styles.scss"

@@ -1,22 +1,26 @@
-import { ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
+import {ApplicationRef, CUSTOM_ELEMENTS_SCHEMA, DoBootstrap, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { UpgradeModule } from '@angular/upgrade/static';
 import { AppNgComponent } from './app.ng.component';
+import '../legacy/index';
+import {LegacyHostComponent} from './legacy-host/legacy-host.component';
 
 @NgModule({
   declarations: [AppNgComponent],
-  imports: [BrowserModule, UpgradeModule],
+  imports: [BrowserModule, UpgradeModule, LegacyHostComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule implements DoBootstrap {
-  constructor(private appRef: ApplicationRef, private upgrade: UpgradeModule) {}
+  constructor(
+    private appRef: ApplicationRef,
+    private upgrade: UpgradeModule
+  ) {}
 
   ngDoBootstrap(): void {
-    // Angular を起動
     this.appRef.bootstrap(AppNgComponent);
 
-    // AngularJS を同居起動（描画先は div#legacy-root）
     const el = document.getElementById('legacy-root');
     if (!el) throw new Error('#legacy-root not found');
-    this.upgrade.bootstrap(el, ['legacyApp']);
+    this.upgrade.bootstrap(el, ['legacyApp'], {strictDi: true});
   }
 }
