@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@angular/cli": "^21.0.3",
-    "ng": "^0.0.0"
+    "ng": "^0.0.0",
+    "zone.js": "0.15.0"
   },
   "scripts": {
     "ng": "ng",

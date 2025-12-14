@@ -1,14 +1,11 @@
-FROM node:20
+FROM node:20.19.5
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-RUN npm install -g @angular/cli
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
 COPY . .
 
 EXPOSE 4200
-
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--poll", "2000"]

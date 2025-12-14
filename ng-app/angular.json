@@ -21,14 +21,16 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/ng-app",
+            "index": "src/index.html",
+            "polyfills": ["zone.js"],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+            "assets": ["src/favicon.ico", "src/assets"],
+            "scripts": [
+              "node_modules/angular/angular.js",
+              "src/legacy/app.js"
             ],
             "styles": [
               "src/styles.scss"
@@ -60,6 +62,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "ng-app:build"
+          },
           "configurations": {
             "production": {
               "buildTarget": "ng-app:build:production"
