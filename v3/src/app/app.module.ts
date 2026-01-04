@@ -8,7 +8,7 @@ import {routes} from './app.routes';
 import {RouterModule} from '@angular/router';
 import {V3Component} from './pages/v3/v3.component';
 import {V2Component} from './pages/v2/v2.component';
-
+// import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppNgComponent,
@@ -22,6 +22,8 @@ import {V2Component} from './pages/v2/v2.component';
     V2Component,
     V3Component,
   ],
+  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule implements DoBootstrap {
   constructor(private appRef: ApplicationRef) {}
