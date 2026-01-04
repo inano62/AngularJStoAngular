@@ -10,34 +10,6 @@ services:
       POSTGRES_PASSWORD: YourPassword123
     ports:
       - "5432:5432"
-  v2:
-    container_name: v2
-    image: node:20-alpine
-    working_dir: /usr/src/app
-    build:
-      context: ./v2
-      dockerfile: Dockerfile
-    volumes:
-      - ./v2:/usr/src/app
-      - /usr/src/app/node_modules
-    command: sh -c "npm install && npm run start"
-    ports:
-      - "8080:3000" 
-
-  v3:
-    container_name: v3
-    image: node:20-alpine
-    working_dir: /usr/src/app
-    volumes:
-      - ./v3:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    command: sh -c "npm install && npm run start -- --host 0.0.0.0 --poll 2000"
-    ports:
-      - "4200:4200"
-    depends_on:
-      - api
 
   api:
     build:
@@ -51,3 +23,40 @@ services:
       SPRING_DATASOURCE_PASSWORD: YourPassword123
     ports:
       - "8081:8080"
+
+  v2:
+    container_name: v2
+    build:
+      context: ./v2
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./v2:/usr/src/app
+      - /usr/src/app/node_modules
+    command: sh -c "npm install && npm run start"
+    ports:
+      - "8080:3000"
+
+  v3:
+    container_name: v3
+    image: node:20-alpine
+    working_dir: /usr/src/app
+    volumes:
+      - ./v3:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run start -- --host 0.0.0.0 --port 4200 --poll 2000"
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api
+      - web
+
+  # React widgets（別ポートで開発中には常駐：distを V3で読み込ませる構成）
+  web:
+    build: ./v3/react-widgets
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
